@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { productsList as products } from "../consts/productsList";
 import { CORS_HEADERS } from "../consts/corsHeaders";
+import { Messages } from "../enums/messages";
 
 export const getProductById: APIGatewayProxyHandler = async (event) => {
   const { id } = event.pathParameters;
@@ -12,7 +13,7 @@ export const getProductById: APIGatewayProxyHandler = async (event) => {
       headers: CORS_HEADERS,
       body: JSON.stringify(
         {
-          message: "There is no product with this id",
+          message: Messages.PRODUCT_NOT_FOUND,
         },
         null,
         2
