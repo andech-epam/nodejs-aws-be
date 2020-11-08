@@ -108,3 +108,4 @@ dist
 
 # Webpack directories
 .webpack
+env.ts

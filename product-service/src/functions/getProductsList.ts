@@ -5,14 +5,12 @@ import { getAllProducts } from "../services/productsService";
 import { getResponse } from "../utils/getResponse";
 
 export const getProductsList: APIGatewayProxyHandler = async () => {
+  console.log(`getProductsList called`);
+
   try {
     const products: ProductDto[] = await getAllProducts();
 
-    const body = {
-      products,
-    };
-
-    return getResponse(200, body);
+    return getResponse(200, products);
   } catch (e) {
     console.log(e);
     return DEFAULT_SERVER_ERROR_RESPONSE;

@@ -8,6 +8,8 @@ import { getResponse } from "../utils/getResponse";
 export const getProductById: APIGatewayProxyHandler = async (event) => {
   const { id } = event.pathParameters;
 
+  console.log(`getProductById called with id: ${id}`);
+
   try {
     const product: ProductDto | undefined = await getProduct(id);
 

@@ -3,11 +3,11 @@ import { CORS_HEADERS } from "../consts/corsHeaders";
 
 export function getResponse(
   statusCode: number,
-  body: Record<string, unknown>
+  body?: unknown
 ): APIGatewayProxyResult {
   return {
     statusCode,
     headers: CORS_HEADERS,
-    body: JSON.stringify(body, null, 2),
+    body: body ? JSON.stringify(body, null, 2) : null,
   };
 }
