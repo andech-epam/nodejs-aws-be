@@ -1,35 +1,32 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { productsList as products } from "../consts/productsList";
-import { CORS_HEADERS } from "../consts/corsHeaders";
 import { Messages } from "../enums/messages";
+import { getProduct } from "../services/productsService";
+import { ProductDto } from "../models/product-dto";
+import { DEFAULT_SERVER_ERROR_RESPONSE } from "../consts/errorResponses";
+import { getResponse } from "../utils/getResponse";
 
 export const getProductById: APIGatewayProxyHandler = async (event) => {
   const { id } = event.pathParameters;
-  const product = products.find((product) => product.id === id);
 
-  if (!product) {
-    return {
-      statusCode: 404,
-      headers: CORS_HEADERS,
-      body: JSON.stringify(
-        {
-          message: Messages.PRODUCT_NOT_FOUND,
-        },
-        null,
-        2
-      ),
+  console.log(`getProductById called with id: ${id}`);
+
+  try {
+    const product: ProductDto | undefined = await getProduct(id);
+
+    if (!product) {
+      const body = {
+        message: Messages.PRODUCT_NOT_FOUND,
+      };
+      return getResponse(404, body);
+    }
+
+    const body = {
+      product,
     };
-  }
 
-  return {
-    statusCode: 200,
-    headers: CORS_HEADERS,
-    body: JSON.stringify(
-      {
-        product,
-      },
-      null,
-      2
-    ),
-  };
+    return getResponse(200, body);
+  } catch (e) {
+    console.log(e);
+    return DEFAULT_SERVER_ERROR_RESPONSE;
+  }
 };
