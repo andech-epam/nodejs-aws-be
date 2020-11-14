@@ -47,9 +47,7 @@ describe('getProduct', () => {
 
     expect(spyLogger).toHaveBeenCalled();
     expect(spyService).toHaveBeenCalledWith(idMock);
-    expect(spyResponse).toHaveBeenCalledWith(StatusCodes.Ok_200, {
-      product: productMock,
-    });
+    expect(spyResponse).toHaveBeenCalledWith(StatusCodes.Ok_200, productMock);
     expect(getProduct).toBeTruthy();
   });
 

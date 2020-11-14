@@ -27,11 +27,7 @@ export const getProduct: APIGatewayProxyHandler = async (
       return utilsService.getResponse(StatusCodes.NotFound_404, body);
     }
 
-    const body: Body = {
-      product,
-    };
-
-    return utilsService.getResponse(StatusCodes.Ok_200, body);
+    return utilsService.getResponse(StatusCodes.Ok_200, { ...product });
   } catch (e) {
     console.log(e);
     return DEFAULT_SERVER_ERROR_RESPONSE;
