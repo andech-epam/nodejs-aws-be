@@ -2,29 +2,31 @@ import {
   APIGatewayProxyResult,
   APIGatewayEventRequestContextWithAuthorizer,
   Context,
-} from "aws-lambda";
+  APIGatewayProxyEvent,
+  APIGatewayProxyCallback,
+} from 'aws-lambda';
 
-const requestContextMock = {} as APIGatewayEventRequestContextWithAuthorizer<
+const requestContextMock: APIGatewayEventRequestContextWithAuthorizer<unknown> = {} as APIGatewayEventRequestContextWithAuthorizer<
   unknown
 >;
 
-export const apiGatewayProxyEventMock = {
+export const apiGatewayProxyEventMock: APIGatewayProxyEvent = {
   pathParameters: {},
   body: null,
   headers: {},
   multiValueHeaders: {},
-  httpMethod: "",
+  httpMethod: '',
   isBase64Encoded: false,
-  path: "",
+  path: '',
   queryStringParameters: null,
   multiValueQueryStringParameters: null,
   stageVariables: null,
   requestContext: requestContextMock,
-  resource: "",
+  resource: '',
 };
 
-export const contextMock = {} as Context;
+export const contextMock: Context = {} as Context;
 
-export const callbackMock = (): APIGatewayProxyResult => {
+export const callbackMock: APIGatewayProxyCallback = (): APIGatewayProxyResult => {
   return {} as APIGatewayProxyResult;
 };

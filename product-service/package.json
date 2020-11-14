@@ -4,10 +4,13 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "test": "jest",
-    "fn": "serverless invoke local --function",
+    "test": "jest --silent",
+    "formatAll": "npx prettier --write .",
     "deploy": "serverless deploy",
-    "deploy:fn": "serverless deploy function -f"
+    "deploy:fn": "serverless deploy function -f",
+    "invoke:getProductsList": "serverless invoke local -f getProductsList -l",
+    "invoke:getProductById": "serverless invoke local -f getProductById -p invokeData/getProductById.json -l",
+    "invoke:createProduct": "serverless invoke local -f createProduct -p invokeData/createProduct.json -l"
   },
   "dependencies": {
     "joi": "^17.3.0",
@@ -27,6 +30,7 @@
     "fork-ts-checker-webpack-plugin": "^3.0.1",
     "jest": "^26.6.2",
     "prettier": "^2.1.2",
+    "serverless-dotenv-plugin": "^3.1.0",
     "serverless-webpack": "^5.2.0",
     "ts-jest": "^26.4.3",
     "ts-loader": "^5.3.3",

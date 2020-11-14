@@ -1,9 +1,9 @@
-import { Client } from "pg";
-import { DB_CONNECTION_CONFIG } from "../consts/dbConnectionConfig";
-import { ProductDto } from "../models/product-dto";
+import { Client } from 'pg';
+import { DB_CONNECTION_CONFIG } from '../consts/dbConnectionConfig';
+import { ProductDto } from '../models/product-dto';
 
-export async function getAllProducts(): Promise<ProductDto[]> {
-  const client = new Client(DB_CONNECTION_CONFIG);
+async function getProducts(): Promise<ProductDto[]> {
+  const client: Client = new Client(DB_CONNECTION_CONFIG);
 
   try {
     await client.connect();
@@ -19,8 +19,8 @@ export async function getAllProducts(): Promise<ProductDto[]> {
   }
 }
 
-export async function getProduct(id: string): Promise<ProductDto | undefined> {
-  const client = new Client(DB_CONNECTION_CONFIG);
+async function getProduct(id: string): Promise<ProductDto | undefined> {
+  const client: Client = new Client(DB_CONNECTION_CONFIG);
 
   try {
     await client.connect();
@@ -37,18 +37,18 @@ export async function getProduct(id: string): Promise<ProductDto | undefined> {
   }
 }
 
-export async function addNewProduct({
+async function createProduct({
   title,
   description,
   price,
   image,
   count,
 }: ProductDto): Promise<void> {
-  const client = new Client(DB_CONNECTION_CONFIG);
+  const client: Client = new Client(DB_CONNECTION_CONFIG);
 
   try {
     await client.connect();
-    await client.query("begin");
+    await client.query('begin');
 
     const { rows } = await client.query(`
       insert into products(title, description, price, image) values
@@ -60,11 +60,13 @@ export async function addNewProduct({
       ('${rows[0].id}', ${count});
     `);
 
-    await client.query("commit");
+    await client.query('commit');
   } catch (e) {
-    await client.query("rollback");
+    await client.query('rollback');
     throw e;
   } finally {
     client.end();
   }
 }
+
+export default { getProducts, getProduct, createProduct };

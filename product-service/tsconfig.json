@@ -7,9 +7,10 @@
     "noUnusedParameters": true,
     "sourceMap": true,
     "target": "es2017",
-    "outDir": "lib"
+    "outDir": "lib",
+    "esModuleInterop": true,
   },
-  "include": ["./**/*.ts", "serverless.ts"],
+  "include": ["./**/*.ts", "serverless.ts", ".env"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
