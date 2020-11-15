@@ -3,6 +3,7 @@ import { S3 } from 'aws-sdk';
 import utilsService from '../services/utilsService';
 import { StatusCodes } from '../enums/statusCodes';
 import { DEFAULT_SERVER_ERROR_RESPONSE } from '../consts/errorResponses';
+import { BUCKET } from '../consts/bucket';
 
 export const importProductsFile: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
@@ -11,7 +12,6 @@ export const importProductsFile: APIGatewayProxyHandler = async (
 
   const s3 = new S3({ region: 'eu-west-1' });
 
-  const BUCKET = 's3-import-service';
   const filePath = `uploaded/${name}`;
 
   const params = {
