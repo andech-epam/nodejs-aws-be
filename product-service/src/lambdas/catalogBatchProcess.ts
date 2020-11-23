@@ -66,6 +66,12 @@ export const catalogBatchProcess: SQSHandler = async ({
           Subject: 'New products were created.',
           Message: JSON.stringify(createdProducts),
           TopicArn: process.env.SNS_ARN,
+          MessageAttributes: {
+            count: {
+              DataType: 'Number',
+              StringValue: createdProducts.length.toString(),
+            },
+          },
         })
         .promise();
 
