@@ -57,21 +57,23 @@ export const catalogBatchProcess: SQSHandler = async ({
     }
   }
 
-  const sns = new SNS({ region: 'eu-west-1' });
+  if (createdProducts.length) {
+    const sns = new SNS({ region: 'eu-west-1' });
 
-  try {
-    await sns
-      .publish({
-        Subject: 'New products were created.',
-        Message: JSON.stringify(createdProducts),
-        TopicArn: process.env.SNS_ARN,
-      })
-      .promise();
+    try {
+      await sns
+        .publish({
+          Subject: 'New products were created.',
+          Message: JSON.stringify(createdProducts),
+          TopicArn: process.env.SNS_ARN,
+        })
+        .promise();
 
-    console.log('Email successfully sended');
-    console.table(createdProducts);
-  } catch (e) {
-    console.log('Error happened during sending email:');
-    console.log(e);
+      console.log('Email successfully sended');
+      console.table(createdProducts);
+    } catch (e) {
+      console.log('Error happened during sending email:');
+      console.log(e);
+    }
   }
 };
