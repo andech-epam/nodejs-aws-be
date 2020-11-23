@@ -15,7 +15,12 @@ export const catalogBatchProcess: SQSHandler = async ({
     try {
       console.log(`Trying to parse body ${body}`);
 
-      product = JSON.parse(body);
+      const parsedBody = JSON.parse(body);
+      product = {
+        ...parsedBody,
+        count: parseInt(parsedBody.count),
+        price: parseInt(parsedBody.price),
+      };
 
       console.log('Body successfully parsed');
     } catch (e) {
@@ -51,8 +56,6 @@ export const catalogBatchProcess: SQSHandler = async ({
       continue;
     }
   }
-
-  console.log(process.env.SNS_ARN);
 
   const sns = new SNS({ region: 'eu-west-1' });
 

@@ -30,7 +30,7 @@ const serverlessConfiguration: Serverless = {
         Ref: 'SQSQueue',
       },
       SNS_ARN: {
-        Ref: 'SNSTopic',
+        Ref: 'createProductTopic',
       },
     },
 
@@ -46,7 +46,7 @@ const serverlessConfiguration: Serverless = {
         Effect: 'Allow',
         Action: ['sns:*'],
         Resource: {
-          Ref: 'SNSTopic',
+          Ref: 'createProductTopic',
         },
       },
     ],
@@ -61,20 +61,37 @@ const serverlessConfiguration: Serverless = {
         },
       },
 
-      SNSTopic: {
+      createProductTopic: {
         Type: 'AWS::SNS::Topic',
         Properties: {
           TopicName: 'sneakers-create-product-sns-topic',
         },
       },
 
-      SNSSubscriptions: {
+      countLessThan10Subscription: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Endpoint: '7578191@gmail.com',
           Protocol: 'email',
           TopicArn: {
-            Ref: 'SNSTopic',
+            Ref: 'createProductTopic',
+          },
+          FilterPolicy: {
+            count: [{ numeric: ['<', 10] }],
+          },
+        },
+      },
+
+      countGreaterOrEqual10Subscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'andrei.misikhin@yandex.ru',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'createProductTopic',
+          },
+          FilterPolicy: {
+            count: [{ numeric: ['>=', 10] }],
           },
         },
       },
