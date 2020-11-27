@@ -25,11 +25,14 @@ async function getProduct(id: string): Promise<ProductDto | undefined> {
   try {
     await client.connect();
 
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       select p.id, p.title, p.description, p.price, p.image, s.count
       from products p join stocks s on p.id = s.product_id
-      where p.id = '${id}';
-    `);
+      where p.id = $1;
+    `,
+      [id]
+    );
 
     return rows[0];
   } finally {
@@ -50,15 +53,21 @@ async function createProduct({
     await client.connect();
     await client.query('begin');
 
-    const { rows } = await client.query(`
+    const { rows } = await client.query(
+      `
       insert into products(title, description, price, image) values
-      ('${title}', '${description}', ${price}, '${image}') returning *;
-    `);
+      ($1, $2, $3, $4) returning *;
+    `,
+      [title, description, price, image]
+    );
 
-    await client.query(`
+    await client.query(
+      `
       insert into stocks(product_id, count) values
-      ('${rows[0].id}', ${count});
-    `);
+      ($1, $2);
+    `,
+      [rows[0].id, count]
+    );
 
     await client.query('commit');
   } catch (e) {
